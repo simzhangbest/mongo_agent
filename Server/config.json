@@ -1,0 +1,8 @@
+{
+  "databasename" : "userdata",
+  "username" : "admin",
+  "password" :"123456",
+  "ip" : "192.168.1.122",
+  "colname" : "simcol",
+  "port" : "27017"
+}
