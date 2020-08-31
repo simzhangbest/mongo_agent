@@ -23,6 +23,10 @@ type Operdb struct {
 
 func init()  {
 	infomap :=utils.Resolve()
+	if infomap == nil{
+		fmt.Println("init config error")
+		return
+	}
 	obj = new(Operdb)
 	obj.rwlock = new(sync.RWMutex)
 	obj.connect(infomap)
@@ -34,12 +38,21 @@ func Newoperdb() *Operdb {
 
 //数据库连接,对象初始化
 func (oper *Operdb)connect(info map[string]string){
-	 ip  := info["ip"]
+
+	ip  := info["ip"]
 	 port  := info["port"]
-	url := ip + ":" + port
+	 // username:password@port/databasename
+	 // [mongodb://][user:pass@]host1[:port1][,host2[:port2],...][/database][?options]
+	//url := ip + ":" + port  SASL 登录
+	url := "mongodb://" + info["username"] + ":" + info["password"] +  "@" +ip + ":" + port
 	oper.mgo_session, _ = mgo.Dial(url)
 	oper.mgo_db = oper.mgo_session.DB(info["databasename"])
-	oper.mgo_db.Login(info["username"], info["password"])
+	fmt.Println(info["username"])
+	//err := oper.mgo_db.Login(info["username"], info["password"])
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
 	oper.mgo_c = oper.mgo_db.C(info["colname"])
 	oper.bulk = oper.mgo_c.Bulk()
 	fmt.Println("db connect")

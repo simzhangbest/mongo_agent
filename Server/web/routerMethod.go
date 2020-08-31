@@ -203,10 +203,11 @@ func GinWebsocketHandler(wsConnHandle websocket.Handler) gin.HandlerFunc {
 
 
 // 此处只做接收数据显示，和引出ws 全局变量
+// 此处for 循环 需要优化一下，不然会导致cpu 线程跑满
 var tmpWsCon *websocket.Conn
 func WsConnHandle(conn *websocket.Conn) {
 	tmpWsCon = conn
-	//fmt.Println(tmpWsCon)
+	fmt.Println(tmpWsCon)
 	for {
 		var msg string
 		if err := websocket.Message.Receive(conn, &msg); err != nil {
@@ -228,6 +229,5 @@ func WsConnHandle(conn *websocket.Conn) {
 		//		return
 		//	}
 		//}
-
-	}
+		}
 }

@@ -2,7 +2,7 @@
   "databasename" : "userdata",
   "username" : "admin",
   "password" :"123456",
-  "ip" : "114.212.80.187",
+  "ip" : "localhost",
   "colname" : "simcol",
   "port" : "27017"
 }
