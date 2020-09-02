@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/net/websocket"
 	"net/http"
-	"time"
 )
 /*
 	定义路由处理函数
@@ -208,14 +207,14 @@ var tmpWsCon *websocket.Conn
 func WsConnHandle(conn *websocket.Conn) {
 	tmpWsCon = conn
 	fmt.Println(tmpWsCon)
-	for {
-		var msg string
-		if err := websocket.Message.Receive(conn, &msg); err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		fmt.Printf("recv: %v time: %v from remote addr: %v \n", msg, time.Now(), conn.RemoteAddr().String())
+	//for {
+	//	var msg string
+	//	if err := websocket.Message.Receive(conn, &msg); err != nil {
+	//		fmt.Println(err)
+	//		return
+	//	}
+	//
+	//	fmt.Printf("recv: %v time: %v from remote addr: %v \n", msg, time.Now(), conn.RemoteAddr().String())
 
 		//data := []byte(time.Now().Format(time.RFC3339) + " simzhangtest")
 		//data := []byte(flag)
@@ -229,5 +228,5 @@ func WsConnHandle(conn *websocket.Conn) {
 		//		return
 		//	}
 		//}
-		}
+		//}
 }
