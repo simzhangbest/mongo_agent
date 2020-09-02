@@ -28,7 +28,7 @@ type Handle struct {
 func NewHandle()  *Handle{
 	handle := new(Handle)
 	handle.count = 0
-	go handle.gorount()
+	go handle.gorountBetter() // 避免跑到100%
 	return handle
 }
 
@@ -73,5 +73,43 @@ func (handle *Handle)gorount()  {
 		}
 			dbop.BulkRun()
 			handle.count = 0
+	}
+}
+
+
+// 防止cpu 跑满
+
+
+
+func schedule(what func(), delay time.Duration) chan bool {
+	stop := make(chan bool)
+
+	go func() {
+		for {
+			what()
+			select {
+			case <-time.After(delay):
+			case <-stop:
+				return
+			}
+		}
+	}()
+
+	return stop
+}
+
+func (handle *Handle)gorountBetter()  {
+	bulkInsert := func() {
+		dbop.BulkRun()
+
+	}
+
+	for{
+		stop := schedule(bulkInsert, 1*time.Millisecond)
+		time.Sleep(1*time.Second)
+		if handle.count >= 100 {
+			stop <- true
+			handle.count = 0
+		}
 	}
 }
