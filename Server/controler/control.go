@@ -28,7 +28,7 @@ type Handle struct {
 func NewHandle()  *Handle{
 	handle := new(Handle)
 	handle.count = 0
-	go handle.gorountBetter() // 避免跑到100%
+	go handle.gorount() 
 	return handle
 }
 
